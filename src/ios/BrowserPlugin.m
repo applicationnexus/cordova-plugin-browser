@@ -33,36 +33,8 @@
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
-- (void)open:(CDVInvokedUrlCommand *)command {
-    if (_safariViewController) {
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
-                                                    messageAsString:@"only single browser is allowed"];
-        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-        return;
-    }
 
-    NSString *urlString = command.arguments[0];
-    NSDictionary* options = command.arguments[1];
-    if (urlString == nil) {
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
-                                                    messageAsString:@"url can't be empty"];
-        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    } else {
-        NSURL *url = [NSURL URLWithString:urlString];
-        id readerMode = options[@"readerMode"];
-        BOOL readerModeFlag = readerMode ? [readerMode boolValue] : NO;
-
-        _safariViewController = [[SFSafariViewController alloc] initWithURL:url entersReaderIfAvailable:readerModeFlag];
-        _safariViewController.delegate = self;
-
-        [self.viewController presentViewController:_safariViewController animated:YES completion:nil];
-
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    }
-}
-
-- (void)openUrl:(CDVInvokedUrlCommand *)command
+- (void)open:(CDVInvokedUrlCommand *)command
 {
     CDVPluginResult* result = nil;
     
