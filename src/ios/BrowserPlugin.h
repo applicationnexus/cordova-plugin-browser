@@ -7,6 +7,7 @@
 - (void)open:(CDVInvokedUrlCommand*)command;
 - (void)onLoad:(CDVInvokedUrlCommand*)command;
 - (void)onClose:(CDVInvokedUrlCommand*)command;
+- (void)openUrl:(CDVInvokedUrlCommand*)command;
 
 @property (nonatomic, copy) NSString *loadCallbackId;
 @property (nonatomic, copy) NSString *closeCallbackId;
