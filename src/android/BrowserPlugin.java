@@ -70,23 +70,13 @@ public class BrowserPlugin extends ReflectiveCordovaPlugin {
 
     @CordovaMethod
     protected void open(CordovaArgs args, CallbackContext callbackContext) throws JSONException {
-        Uri uri = Uri.parse(args.getString(0));
-        Context context = cordova.getActivity();
-        if (customTabsClient == null) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(uri);
-            intent.putExtra(Browser.EXTRA_APPLICATION_ID, context.getPackageName());
-            context.startActivity(intent);
-        } else {
-            CustomTabsSession session = customTabsClient.newSession(this.customTabsCallback);
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(session);
-            // add nice animation for custom tabs
-            builder.setStartAnimations(context, getAnimResId("slide_in_right"), getAnimResId("slide_out_left"));
-            builder.setExitAnimations(context, getAnimResId("slide_in_left"), getAnimResId("slide_out_right"));
-            // TODO
-            CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(context, uri);
-        }
+        String url = args.getString(0);
+			
+			Context context=this.cordova.getActivity().getApplicationContext();
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+			browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(browserIntent);
+
         callbackContext.success();
     }
 
